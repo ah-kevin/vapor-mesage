@@ -37,7 +37,7 @@ struct Thread {
 		return try Node(node: [
 			"id": id,
 			"messageIds": messageIds.makeNode(),
-			"participants": participants.makeNode(),
+			"participants": participantsId.makeNode(),
 		])
 	}
 }
