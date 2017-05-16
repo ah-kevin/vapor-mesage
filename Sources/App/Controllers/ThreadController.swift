@@ -14,8 +14,14 @@ final class ThreadController: ResourceRepresentable {
 		let nodes = try Thread.all().map({ (thread) -> Node in
 			return try thread.makeResponseNode()
 		})
+		let participants = try Participant.all()
+		let messages = try Message.all()
 
-		return try nodes.makeNode().converted(to: JSON.self)
+		return try JSON(node: [
+			"threads": nodes.makeNode(),
+			"participants": participants.makeNode(),
+			"messages": messages.makeNode()
+		])
 	}
 
 	func show(request: Request, thread: Thread) throws -> ResponseRepresentable {
