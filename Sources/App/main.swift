@@ -10,8 +10,8 @@ try drop.addProvider(VaporMySQL.Provider.self)
 drop.preparations = [Participant.self, Message.self, Thread.self, User.self]
 
 // MARK: - threads
-drop.resource("threads", ThreadController())
-drop.resource("participant", ParticipantController())
-drop.resource("message", MessageController())
+drop.resource("api/threads", ThreadController())
+drop.resource("api/participant", ParticipantController())
+drop.resource("api/message", MessageController())
 
 drop.run()

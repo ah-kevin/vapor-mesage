@@ -16,8 +16,7 @@ struct Thread {
 	// Model必须实现"id"属性
 	var id: Node?
 	var threadId: Int
-	var participants: Set<Int> = []
-	var participantsId = [String: Int]()
+
 	init(threadId: Int) {
 		self.threadId = threadId
 	}
@@ -37,9 +36,10 @@ struct Thread {
 		return try Node(node: [
 			"id": id,
 			"messageIds": messageIds.makeNode(),
-			"participants": participants.makeNode(),
+			"participants": participants.sorted().makeNode(),
 		])
 	}
+
 }
 
 extension Thread: Model {
@@ -47,7 +47,6 @@ extension Thread: Model {
 	init(node: Node, in context: Context) throws {
 		id = try node.extract("id")
 		threadId = try node.extract("threadId")
-
 	}
 
 	// NodeRepresentable 将模型保存到数据库中
