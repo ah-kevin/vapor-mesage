@@ -22,7 +22,7 @@ struct Thread {
 	}
 
 	func makeResponseNode() throws -> Node {
-		let messages = try Message.query().filter("threadId", id!).all()
+		let messages = try Message.query().filter("threadId", threadId).all()
 		var messageIds: [Int] = []
 		var participants: Set<Int> = []
 		var participantsId = [String: Int]()
@@ -34,9 +34,9 @@ struct Thread {
 			participantsId.updateValue(0, forKey: String(id))
 		}
 		return try Node(node: [
-			"id": id,
+			"id": threadId.makeNode(),
 			"messageIds": messageIds.makeNode(),
-			"participants": participants.sorted().makeNode(),
+			"participants": participantsId.makeNode(),
 		])
 	}
 
@@ -62,7 +62,7 @@ extension Thread: Preparation {
 	static func prepare(_ database: Database) throws {
 		try database.create("threads", closure: { (participants) in
 			participants.id()
-			participants.int("threadId")
+			participants.int("threadId", optional: false, unique: true)
 
 		})
 	}
