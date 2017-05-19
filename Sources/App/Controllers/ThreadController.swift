@@ -11,12 +11,13 @@ import Vapor
 
 final class ThreadController: ResourceRepresentable {
 	func index(request: Request) throws -> ResponseRepresentable {
-		if request.data["userId"] != nil {
-			let userId = request.data["userId"]!.string!
+		if request.headers["userId"] != nil {
+			let userId = request.headers["userId"]!.string!
 
 			let messagesForUserId = try Message.database?.driver.raw("select * from `messages` where `messages`.`threadId` in (select DISTINCT `messages`.`threadId` from `messages` where participantId = \(userId))")
 			let participants = try Participant.database?.driver.raw("SELECT * FROM `participants` WHERE `participants`.`id` in (SELECT DISTINCT `messages`.`participantId` FROM `messages` WHERE `messages`.`threadId` in (SELECT DISTINCT `messages`.`threadId` FROM `messages` WHERE `messages`.`participantId`=\(userId)))")
 			let threadsNode = try Message.database?.driver.raw("select DISTINCT `messages`.`threadId` from `messages` where participantId = \(userId)")
+
 			let threadsIds = try threadsNode!.extract("threadId") as [Int]
 
 			var threads: [Thread] = []

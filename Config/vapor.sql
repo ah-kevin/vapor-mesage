@@ -11,7 +11,7 @@
  Target Server Version : 50715
  File Encoding         : utf-8
 
- Date: 05/15/2017 17:36:38 PM
+ Date: 05/19/2017 13:54:49 PM
 */
 
 SET NAMES utf8mb4;
@@ -78,7 +78,8 @@ DROP TABLE IF EXISTS `threads`;
 CREATE TABLE `threads` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `threadId` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `threadId` (`threadId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------

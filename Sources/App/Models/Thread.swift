@@ -62,7 +62,7 @@ extension Thread: Preparation {
 	static func prepare(_ database: Database) throws {
 		try database.create("threads", closure: { (participants) in
 			participants.id()
-			participants.int("threadId")
+			participants.int("threadId", optional: false, unique: true)
 
 		})
 	}
